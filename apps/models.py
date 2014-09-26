@@ -2,49 +2,49 @@
 models.py
 
 """
-from apps import mydb
+from apps import db
 
 #
 # add User Model
 #
 
-class User(mydb.Model):
-    user_id = mydb.Column(mydb.Integer, primary_key=True)
-    name = mydb.Column(mydb.String(255))
-    email = mydb.Column(mydb.String(255))
-    password = mydb.Column(mydb.String(255))
-    place_name = mydb.Column(mydb.String(255))
+class User(db.Model):
+    user_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    email = db.Column(db.String(255))
+    password = db.Column(db.String(255))
+    place_name = db.Column(db.String(255))
 
-class Article(mydb.Model):
-    id = mydb.Column(mydb.Integer, primary_key=True)
-    title = mydb.Column(mydb.String(255))
-    photo = mydb.Column(mydb.Text(255))
-    content = mydb.Column(mydb.Text())
-    user_id = mydb.Column(mydb.Integer, primary_key=True)
-    category = mydb.Column(mydb.String(255))
-    date_created = mydb.Column(mydb.DateTime(), default=mydb.func.now())
+class Article(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255))
+    photo = db.Column(db.Text(255))
+    content = db.Column(db.Text())
+    user_id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String(255))
+    date_created = db.Column(db.DateTime(), default=db.func.now())
 
-class Process(mydb.Model):
-    id_P = mydb.Column(mydb.Integer, primary_key=True)
-    content = mydb.Column(mydb.Text())
+class Process(db.Model):
+    id_P = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text())
     #key = 
-    A_id = mydb.Column(mydb.Integer, mydb.ForeignKey('Article.id'))
-    article = mydb.relationship('Article',
-                              backref=mydb.backref('comments', cascade='all, delete-orphan', lazy='dynamic'))
+    A_id = db.Column(db.Integer, db.ForeignKey('article.id'))
+    article = db.relationship('Article',
+                              backref=db.backref('comments', cascade='all, delete-orphan', lazy='dynamic'))
 
-class Inspire(mydb.Model):
-    id_I = mydb.Column(mydb.Integer, primary_key=True)
+class Inspire(db.Model):
+    id_I = db.Column(db.Integer, primary_key=True)
     #key = 
-    A_id = mydb.Column(mydb.Integer, mydb.ForeignKey('Article.id'))
-    article = mydb.relationship('Article',
-                              backref=mydb.backref('comments', cascade='all, delete-orphan', lazy='dynamic'))
+    A_id = db.Column(db.Integer, db.ForeignKey('article.id'))
+    article = db.relationship('Article',
+                              backref=db.backref('comments', cascade='all, delete-orphan', lazy='dynamic'))
 
-class Comment(mydb.Model):
-    id_C = mydb.Column(mydb.Integer, primary_key=True)
-    user_id = mydb.Column(mydb.Integer, primary_key=True)
-    content = mydb.Column(mydb.Text())
-    A_id = mydb.Column(mydb.Integer, mydb.ForeignKey('Article.id'))
-    date_created = mydb.Column(mydb.DateTime(), default=mydb.func.now())
+class Comment(db.Model):
+    id_C = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text())
+    A_id = db.Column(db.Integer, db.ForeignKey('article.id'))
+    date_created = db.Column(db.DateTime(), default=db.func.now())
 
 
 #    article_id = db.Column(db.Integer, db.ForeignKey('article.id'))

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from flask import render_template, request, redirect, url_for, flash, g, session
-from werkzeug.security import generate_password_hash, \
-     check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import desc
-from apps import app, mydb
+from apps import app, db
 from apps.forms import ArticleForm, CommentForm, JoinForm, LoginForm
 from apps.models import (
     User,
@@ -35,7 +34,8 @@ def allowed_file(filename):
 @app.route('/')
 @app.route('/index')
 def index():
-	return render_template("/main/first.html")   """, all_list=Photo.all())
+	return render_template("/main/first.html")   
+	""", all_list=Photo.all())
 
 
 

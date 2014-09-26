@@ -12,8 +12,8 @@ app.config.from_object('apps.settings.Production')
 
 db = SQLAlchemy(app)
 manager = Manager(app)
-migrate = Migrate(app, mydb)
+migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 
-import controllers, models
+import controller, models
 

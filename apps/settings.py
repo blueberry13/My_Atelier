@@ -19,7 +19,7 @@ class Config(object):
 class Production(Config):
     debug = True
     CSRF_ENABLED = False
-    ADMIN = "chowj375@gmail.com"
-    SQLALCHEMY_DATABASE_URI = 'mysql+gaerdbms:///gongbang?instance=likelion3:dbtest1'
+    ADMIN = "sooyeon.song222@gmail.com"
+    SQLALCHEMY_DATABASE_URI = 'mysql+gaerdbms:///Atelier?instance=likeliondb:like'
     migration_directory = 'migrations'
 
