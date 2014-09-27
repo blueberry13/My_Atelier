@@ -12,16 +12,11 @@ from apps.models import (
     Comment
 )
 
-
-
-
-
 from google.appengine.ext import db
 
 class Photo(db.Model):
 	photo_inClass = db.BlobProperty()
 	text_inClass = db.StringProperty()
-
 
 def allowed_file(filename):
 	ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
@@ -30,28 +25,54 @@ def allowed_file(filename):
 	filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
-
 @app.route('/')
-@app.route('/index')
-def index():
-	return render_template("/main/first.html")   
-	""", all_list=Photo.all())
+@app.route('/first')
+def first():
+	return render_template("/main/first.html") 
 
+@app.route('/article')
+def article():
+	return render_template("/article/create.html")
+
+@app.route('/create', methods=['POST'])
+def upload_db():
+	post_data = request.files['photo']
+	filestream = post_data.read()
+	post_text = request.form['text']
+
+	upload_data = Photo()
+	upload_data.photo_inClass = db.Blob(filestream)
+	upload_data.text_inClass = post_text
+	upload_data.put()
+
+	url = url_for("shows", key=upload_data.key())
+	return redirect(url_for('first'), url = url, main_list=Photo.query.limit(9)) #, all_list=Photo.all())
+	return render_template('/main/first.html')
+
+
+
+@app.route('/show/<key>')
+def shows(key):
+	uploaded_data = db.get(key)
+	return app.response_class(uploaded_data.photo_inClass)
+	
+
+"""
 
 
 @app.route('/create', methods=['POST'])
 def upload_db():
 	post_data = request.files['photo']
 	filestream = post_data.read()
-#	post_text = request.form['text']
+	post_text = request.form['text']
 
 	upload_data = Photo()
 	upload_data.photo_inClass = db.Blob(filestream)
-#	upload_data.text_inClass = post_text
+	upload_data.text_inClass = post_text
 	upload_data.put()
 
 	url = url_for("shows", key=upload_data.key())
-	return redirect(url_for('index'), url = url)
+	return redirect(url_for('index'), url = url, all_list=Photo.all())
 	return render_template('/timeline/home.html')
 
 
@@ -60,4 +81,4 @@ def upload_db():
 def shows(key):
 	uploaded_data = db.get(key)
 	return app.response_class(uploaded_data.photo_inClass)
-	"""
+"""
